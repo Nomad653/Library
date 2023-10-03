@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class Isci:
     
    
@@ -8,7 +7,6 @@ class Isci:
         self.yas = yas
         self.ata_adi=ata_adi
     
-=======
 import sqlite3
 
 username=input('İstifadəçi adı daxil edin: ')
@@ -46,4 +44,3 @@ else:
     print("İstifadəçi adı və şifrəsi yanlışdır!!!")
 
 
->>>>>>> 2dd9f34153dd5dc6eb50c239aea0081169410a5a
