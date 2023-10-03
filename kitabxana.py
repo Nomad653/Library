@@ -8,3 +8,17 @@ class kitab():
     self.buraxilish_ili = buraxilish_ili
     self.ispn_adres = ispn_adres 
  
+ istifadeci_adi = 'Vusal'
+ shifre = 357
+id = input('Istifadeci adinizi daxil edin: ')
+shifre = input('Shifrenizi daxil edin: ')
+    if id== istfadeci_adi 
+        if shifre == shifre 
+        print('Xosh geldiniz')
+    else: print('Istifadeci adi ve ya shifreniz yalnishdir!')
+    
+   
+
+
+
+#input veren adimin idsi duz gelmirse almasin duz gelirsen xosh geldin desin 
