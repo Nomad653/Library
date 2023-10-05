@@ -71,8 +71,6 @@ def bazani_yenile(db,cursor,new_list):
     except sqlite3.Error as error:
         print('Xeta bas verdi', error)
 
-
-
 def bazadan_silme(db,cursor,id):
     try:
         del_query="""DELETE FROM kitabxana where book_id =?"""
@@ -89,38 +87,9 @@ def bazani_bagla(db):
     except sqlite3.Error as error:
         print('Xəta baş verdi', error)
 
-
-#*********************************************************************************************
-#
-# database_connect, cursor = bazaya_qosulma()
-#
-#  # bazaya yazmagin 1-ci usulu
-# # records = [
-# #     ('English', 'Henry', '2022', '4564121324', '15,55'),
-# #     ('Tebiet', 'Samir Aslan', '2023', '47894651', '26,78')
-# # ]
-# #
-# # bazaya_yaz(database_connect, cursor, records)
-#
-#
-#  # bazaya yazmagin 2-ci usulu
-# bazaya_yaz3(database_connect,cursor,kitab_adi='Sssasas',muellif='dsfdsfd',burax_ili=2122,ISBN="15464646",price="4454")
-#
-# #
-# # # melumatlarin bazada yenilenmesi
-# # verilenler=[('English', 'Henry', '2022', '4564121324', '56,45',6),
-# #          ('Tebiet', 'Samir Aslan', '2023', '47894651', '99,87',7)]
-# #
-# # bazani_yenile(database_connect,cursor,verilenler)
-# #
-# # bazadan_silme(database_connect,cursor,2)
-#
-# if database_connect:
-#     bazani_bagla(database_connect)
-# *********************************************************************************
 database_connect, cursor = bazaya_qosulma()
 
-pages=np.arange(1,11)
+pages=np.arange(1,2)
 
 for page in pages:
     url="https://www.kitapyurdu.com/index.php?route=product/category&page="+str(page)+"&filter_category_all=true&path=1_128&filter_in_stock=1&sort=purchased_365&order=DESC"
@@ -139,42 +108,36 @@ for page in pages:
         list_test.append(x.a['href'])
 
     umumi_siyahi = []
+
     for link in list_test:
         print(link)
         web = requests.get(link)
         soup = BeautifulSoup(web.content, "html.parser")
 
-        TableBody = soup.body
+        table = soup.find('table')
+        if table:
+            rows = table.find_all('tr')[1:]
+            table_data = []
+            for row in rows:
+                td_tags = row.find_all('td')
+                row_data = [td.text.strip() for td in td_tags]
+                table_data.append(row_data)
 
-        TableValues = []
+            for row in rows:
+                if "ISBN" in row.text:
+                    isbn_td = row.find('td').find_next('td')
+                    isbn = isbn_td.text.strip()
+                elif "Yayın Tarihi" in row.text:
+                    date_td = row.find('td').find_next('td')
+                    date = date_td.text.strip()
 
-        for i in TableBody.find_all('tr'):
-            if "ISBN" in i.text:
-                isbn_td = i.find('td')
-                number_td = isbn_td.find_next('td')
-                number1 = number_td.text.strip()
-                # print(number1)
+            kitab_adi = soup.find(class_="pr_header").text.strip()
+            muellif = soup.find(class_="pr_producers__link").text.strip()
+            price = soup.find(class_='price__item').text.strip()
 
-        for i in TableBody.find_all('tr'):
-            if "Yayın Tarihi" in i.text:
-                isbn_td = i.find('td')
-                number_td = isbn_td.find_next('td')
-                date1 = number_td.text.strip()
-                # print(date1)
+            print(isbn, date, kitab_adi, muellif, price)
 
-        kitab_adi = soup.find(class_="pr_header")
-        kitab=kitab_adi.text.strip()
-
-        muellif = soup.find(class_="pr_producers__link")
-        author=muellif.text.strip()
-
-        price = soup.find(class_='price__item')
-        qiymet=price.text.strip()
-
-        umumi_siyahi = [number1, date1, kitab, author, qiymet]
-        print(umumi_siyahi)
-
-        bazaya_yaz3(database_connect,cursor,kitab_adi=kitab,muellif=author,burax_ili=date1,ISBN=number1,price=qiymet)
+            bazaya_yaz3(database_connect,cursor,kitab_adi=kitab_adi,muellif=muellif,burax_ili=date,ISBN=isbn,price=price)
 
 if database_connect:
     bazani_bagla(database_connect)
