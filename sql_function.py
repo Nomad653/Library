@@ -75,3 +75,32 @@ def bazani_bagla(db):
         print("Bazaya ilə əlaqə kəsildi")
     except sqlite3.Error as error:
         print('Xəta baş verdi', error)
+
+#*********************************************************************************************
+#
+# database_connect, cursor = bazaya_qosulma()
+#
+#  # bazaya yazmagin 1-ci usulu
+# # records = [
+# #     ('English', 'Henry', '2022', '4564121324', '15,55'),
+# #     ('Tebiet', 'Samir Aslan', '2023', '47894651', '26,78')
+# # ]
+# #
+# # bazaya_yaz(database_connect, cursor, records)
+#
+#
+#  # bazaya yazmagin 2-ci usulu
+# bazaya_yaz3(database_connect,cursor,kitab_adi='Sssasas',muellif='dsfdsfd',burax_ili=2122,ISBN="15464646",price="4454")
+#
+# #
+# # # melumatlarin bazada yenilenmesi
+# # verilenler=[('English', 'Henry', '2022', '4564121324', '56,45',6),
+# #          ('Tebiet', 'Samir Aslan', '2023', '47894651', '99,87',7)]
+# #
+# # bazani_yenile(database_connect,cursor,verilenler)
+# #
+# # bazadan_silme(database_connect,cursor,2)
+#
+# if database_connect:
+#     bazani_bagla(database_connect)
+# *********************************************************************************
