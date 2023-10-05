@@ -7,10 +7,9 @@ with sqlite3.connect('baza.db') as db:
     book_id INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
     kitab_adi TEXT,
     muellif TEXT,
-    janr TEXT,
-    burax_ili INTEGER,
+    burax_ili TEXT,
     ISBN TEXT,
-    mesgul TEXT    
+    price TEXT    
     )"""
 
     isciler_query="""CREATE TABLE IF NOT EXISTS isciler(
